@@ -30,9 +30,9 @@ function inline_switcher() {
   select_open = '\n        <select name="switcher_dropdown" id="switcher_dropdown" accesskey="s" onchange="switch_css(this.value)"';
 
   // Check if framework is in local storage.
-  framework_name = localStorage.getItem(localStorageKey);
-  if (framework_name) {
-    select_open = select_open + ' value="' + framework_name + '"';
+  var framework_id = localStorage.getItem(localStorageKey);
+  if (framework_id) {
+    select_open = select_open + ' value="' + capitalize(framework_id) + '"';
   }
 
   dropdown = select_open + '>\n';
@@ -56,8 +56,8 @@ function add_switcher() {
     css_link.type="text/css";
 
     // Check if framework is in local storage.
-    var framework_name = localStorage.getItem(localStorageKey) || frameworks.split(",")[0];
-    css_link.href=host+"/min/" + framework_name + ".min.css";
+    var framework_id = localStorage.getItem(localStorageKey) || frameworks.split(",")[0];
+    css_link.href=host+"/min/" + framework_id + ".min.css";
 
     head.appendChild(css_link);
   }
