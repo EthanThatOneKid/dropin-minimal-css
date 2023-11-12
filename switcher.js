@@ -4,11 +4,11 @@ var localStorageKey = "dropin-minimal-css-framework";
 
 add_switcher();
 
-function switch_css(framework) {
-  css_link.href = host + "/min/" + framework + ".min.css";
+function switch_css(f) {
+  css_link.href = host + "/min/" + f + ".min.css";
 
   // Save framework to local storage.
-  localStorage.setItem(localStorageKey, framework);
+  localStorage.setItem(localStorageKey, f);
 }
 
 function capitalize(s) {
@@ -29,17 +29,17 @@ function inline_switcher() {
   frameworks_array = frameworks.split(",");
   select_open = '\n        <select name="switcher_dropdown" id="switcher_dropdown" accesskey="s" onchange="switch_css(this.value)"';
 
-  // Check if framework is in local storage.
-  framework_name = localStorage.getItem(localStorageKey);
-  if (framework_name) {
-    select_open = select_open + ' value="' + framework_name + '"';
-  }
-
+  var stored_f = localStorage.getItem(localStorageKey);
   dropdown = select_open + '>\n';
   for (i = 0; i < frameworks_array.length; i++) {
     f = frameworks_array[i];
     framework_name = capitalize(f);
-    option = '          <option value="' + f + '">' + framework_name + ' CSS</option>\n';
+    option = '          <option value="' + f + '"';
+    if (f == stored_f) {
+      option += ' selected';
+    }
+
+    option += '>' + framework_name + ' CSS</option>\n';
     dropdown = dropdown + option;
   }
   select_close = '        </select>\n      '
@@ -56,8 +56,8 @@ function add_switcher() {
     css_link.type="text/css";
 
     // Check if framework is in local storage.
-    var framework_name = localStorage.getItem(localStorageKey) || frameworks.split(",")[0];
-    css_link.href=host+"/min/" + framework_name + ".min.css";
+    var f = localStorage.getItem(localStorageKey) || frameworks.split(",")[0];
+    css_link.href=host+"/min/" + f + ".min.css";
 
     head.appendChild(css_link);
   }
